@@ -1,0 +1,56 @@
+class TNTfollowMouse
+{
+  void render()
+  { 
+    stroke(0);
+    pushMatrix();
+    
+   ellipse( mouseX+10, mouseY+100, 20, 15);
+    ellipse( mouseX+50, mouseY+100, 20, 15);
+    ellipse( mouseX+20, mouseY+110, 20, 15);
+    ellipse( mouseX+40, mouseY+110, 20, 15);
+    rect( mouseX+10, mouseY-10, 20, 100);
+    rect( mouseX+30, mouseY-10, 20, 100);
+    rect( mouseX, mouseY, 20, 100);
+    rect( mouseX+20, mouseY, 20, 100);
+    rect( mouseX+40, mouseY, 20, 100);
+    rect( mouseX+10, mouseY+10, 20, 100);
+    rect( mouseX+30, mouseY+10, 20, 100);
+    ellipse( mouseX+20, mouseY-10, 20, 15);
+    ellipse( mouseX+40, mouseY-10, 20, 15);
+    ellipse( mouseX+10, mouseY, 20, 15);
+    ellipse( mouseX+30, mouseY, 20, 15);
+    ellipse( mouseX+50, mouseY, 20, 15);
+    ellipse( mouseX+20, mouseY+10, 20, 15);
+    ellipse( mouseX+40, mouseY+10, 20, 15);
+    
+    noStroke();
+    rect( mouseX+2, mouseY+97, 7, 5);
+    rect( mouseX+52, mouseY+97, 7, 5);
+    rect( mouseX+12, mouseY+107, 17, 5);
+    rect( mouseX+32, mouseY+107, 17, 5);
+  
+    fill(0);
+    rect( mouseX+10, mouseY+50, 40, 20);
+    quad(mouseX, mouseY+40, mouseX+10, mouseY+50, mouseX+10, mouseY+70, mouseX, mouseY+60);
+    quad(mouseX+50, mouseY+50, mouseX+60, mouseY+40, mouseX+60, mouseY+60, mouseX+50, mouseY+70);
+  
+    textSize(20);
+    fill(255);
+    text("TNT",mouseX+10,mouseY+68);
+    
+    popMatrix();
+  }
+    
+  void update()
+  {
+   if (keyPressed)
+    {
+       if (key == ' ')
+        {
+          TNT T = new TNT(mouseX, mouseY);
+          TNTSpawn.add(T); 
+        }
+    } 
+  }
+}
