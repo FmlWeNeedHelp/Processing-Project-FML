@@ -1,0 +1,32 @@
+
+void setup()
+{
+  size(1000,750);
+  
+  tfm = new TNTfollowMouse();
+  
+  strokeWeight(2);
+  mousePressed();
+}
+
+TNTfollowMouse tfm;
+
+final static ArrayList<TNT> TNTSpawn = new ArrayList();
+
+void draw()
+{
+  background(100, 200, 200);
+  stroke(0);
+  fill(255,0,0);
+  
+  tfm.render();
+  tfm.update();
+  
+  for(TNT T: TNTSpawn) T.run();
+}
+
+
+void mousePressed()
+{
+  TNTSpawn.add( new TNT(mouseX, mouseY)) ;
+}
