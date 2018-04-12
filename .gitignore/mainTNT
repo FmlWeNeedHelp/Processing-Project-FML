@@ -6,7 +6,6 @@ void setup()
   tfm = new TNTfollowMouse();
   
   strokeWeight(2);
-  mousePressed();
 }
 
 TNTfollowMouse tfm;
