@@ -1,0 +1,66 @@
+void pont(float X, float Y){
+  color C = pixels[(int(X)+int(Y)*width)%screen];
+  pixels[(int(X)+int(Y)*width)%screen]=max(#000000,C-darkness);
+}
+class particle{
+  float posx, posy, xinit, yinit;
+  float speedx, speedy;
+  particle(float X, float Y) {
+    posx=xinit=X;
+    posy=yinit=Y;
+  }
+  void home(){
+    chase(xinit,yinit,1);
+  }
+  void chase(float mx,float my,float force){
+    float dx=(posx-mx);
+    float dy=(posy-my);
+    force/=(dx*dx+dy*dy);
+    if (abs(dx)<1&&abs(dy)<1){
+    speedx=speedy=force=0;
+  } else{
+    speedx-=(dx*force);
+    speedy-=(dy*force);
+  }
+  }
+  void show(){
+    speedx*=0.99;
+    speedy*=0.99;
+    posx+=speedx;
+    posy+=speedy;
+    posx=constrain(posx,0,width);
+    posy=constrain(posy,0,height);
+    pont(posx,posy);
+  }
+}
+boolean chase;
+particle [] parts;
+int numparticles; // total particles
+int ppr; //particles per row
+int screen; // total pixels on screen
+ 
+float spacing=0.8; // spacing between particles in pixels
+int dark=20; // darkness of particle 1-255
+color darkness=color(dark,dark,dark,0); // ignore this
+void setup(){
+  size(600,400);
+  strokeWeight(3);
+  loadPixels();
+  screen = width*height;
+  numparticles=int(screen/(spacing*spacing));
+  ppr = int(width/spacing);
+  parts = new particle[numparticles];
+  for(int i=0; i<numparticles; i++){
+      parts[i]=new particle((i*spacing)%width,i/ppr*spacing);
+}
+}
+void draw(){
+  for (int i=0; i<screen; i++){pixels[i]=#ffffff;}
+  chase = mousePressed;
+  for(int i=0; i<numparticles; i++){
+    if(chase){parts[i].chase(mouseX,mouseY,-2);}
+    else {parts[i].home();}
+    parts[i].show();
+}
+updatePixels();
+}
