@@ -1,0 +1,61 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioInput ai;
+FFT fft;
+
+void setup()
+{
+  size(1024, 500);
+  minim = new Minim(this);
+  ai = minim.getLineIn(Minim.MONO, width, 44100, 16);
+  fft = new FFT(width, 44100);
+  
+  cx = width/2;
+  cy = height/2;
+}
+
+float segments = 100;
+float r= 100;
+float cx,cy;
+
+void draw()
+{
+  background(0);
+    
+  colorMode(HSB);
+  
+  for(int i = 0; i < ai.bufferSize(); i++)
+    {
+        stroke(map(i,0,ai.bufferSize(),0,255),255,255);
+        
+        float x = cx + cos(i) * r;
+        float y = cy + sin(i) * r;
+        float fx = cx + cos(i) * (r + (ai.left.get(i))*50);
+        float fy = cy + sin(i) * (r + (ai.left.get(i))*50);
+    
+        line(x,y,fx,fy);
+    
+    }
+  
+  fft.window(FFT.HAMMING);
+  fft.forward(ai.left);
+  
+  for(int i = 0; i < fft.specSize(); i++)
+  {
+   stroke(map(i,0,ai.bufferSize(),0,255),255,255);
+   
+   float x = cx + cos(i) * r;
+   float y = cy + sin(i) * r;
+   float fx = cx + cos(i) * (r + (fft.getBand(i)*5));
+   float fy = cy + sin(i) * (r + (fft.getBand(i)*5));
+    
+   line(x,y,fx,fy);
+  }
+  
+}
