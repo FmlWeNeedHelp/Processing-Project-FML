@@ -39,7 +39,6 @@ class particles
     speedx-=(dx*force);
     speedy-=(dy*force);
   }
-  
 }
 
 void show()
