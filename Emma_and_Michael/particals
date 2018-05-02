@@ -1,0 +1,63 @@
+
+void pont(float X, float Y)
+  {
+    colorMode(HSB);
+    //color C = pixels[(int(X)+int(Y)*width)%screen];
+  
+    color rainbow = color(random(0,255),255,255);
+    color darkness = color(255,255,100,150);
+  
+    pixels[(int(X)+int(Y)*width)%screen]=max(rainbow, darkness);
+  }
+
+class particles
+{
+  float posx, posy, xinit, yinit;
+  float speedx, speedy;
+  
+  particles(float X, float Y) 
+  {
+    posx=xinit=X;
+    posy=yinit=Y;
+  }
+  
+  void home()
+  {
+    chase(xinit,yinit,1);
+  }
+  
+  void chase(float mx,float my,float force)
+  {
+    float dx=(posx-mx);
+    float dy=(posy-my);
+    force/=(dx*dx+dy*dy);
+    if (abs(dx)<1&&abs(dy)<1){
+    speedx=speedy=force=0;
+  } 
+  else
+  {
+    speedx-=(dx*force);
+    speedy-=(dy*force);
+  }
+  
+}
+
+void show()
+  {
+    speedx*=1;
+    speedy*=1;
+    posx+=speedx;
+    posy+=speedy;
+    posx=constrain(posx,0,width);
+    posy=constrain(posy,0,height);
+    pont(posx,posy);
+  }
+}
+
+boolean chase;
+particles [] parts;
+int numparticles;
+int ppr;
+int screen; 
+ 
+float spacing=64;
